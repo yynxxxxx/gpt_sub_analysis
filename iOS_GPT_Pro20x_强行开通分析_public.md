@@ -1,0 +1,242 @@
+# iOS ChatGPT Pro 20x 开通教程
+
+> **⚠️ 免责声明**：本教程仅供学习研究用途，请遵守相关法律法规和服务条款。
+
+---
+
+## 目录
+
+1. [前置条件](#1-前置条件)
+2. [网络环境配置](#2-网络环境配置)
+3. [iOS 越狱设备配置](#3-ios-越狱设备配置)
+4. [订阅流程详解](#4-订阅流程详解)
+5. [关键请求字段参考](#5-关键请求字段参考)
+
+---
+
+## 1. 前置条件
+
+在开始操作之前，请确保你已准备好以下所有条件：
+
+| 序号 | 条件 | 说明 |
+|:---:|------|------|
+| 1 | 一部 **已越狱** 的 iOS 设备 | 需要安装 Sileo 包管理器 |
+| 2 | 手机上能正常打开 **ChatGPT** App | 确保 App 版本可正常打开 |
+| 3 | 一台安装了 **Reqable** 的电脑 | 支持 Windows / macOS |
+| 4 | 电脑上安装了 **Clash** 代理工具 | 用于科学上网 |
+| 5 | 电脑与手机连接 **同一 Wi-Fi** 网络 | 用于中间人抓包 |
+
+---
+
+## 2. 网络环境配置
+
+### 2.1 电脑端配置
+
+1. **启动 Clash**
+   - ✅ 确保 Clash 正常运行（默认端口 `7890`）
+   - ❌ **关闭** 系统代理
+   - ❌ **关闭** 虚拟网卡（TUN 模式）
+
+2. **配置 Reqable 二级代理**
+   - 打开 Reqable
+   - 创建**二级代理规则**，设置如下：
+     ```
+     协议: HTTP
+     地址: 127.0.0.1
+     端口: 7890（即 Clash 运行端口）
+     ```
+   - Reqable 自身监听端口为 `9000`
+
+### 2.2 手机端配置
+
+1. 打开 **设置 → Wi-Fi → 当前连接的网络 → 代理**
+2. 选择 **手动**
+3. 填写代理信息：
+
+| 字段 | 值 |
+|------|-----|
+| 服务器 | 电脑的局域网 IP 地址（如 `192.168.x.x`） |
+| 端口 | `9000`（Reqable 的监听端口） |
+
+> **💡 提示**：可以在电脑终端输入 `ifconfig`（macOS）或 `ipconfig`（Windows）查看本机 IP 地址。
+
+### 2.3 网络链路示意
+
+```
+iPhone ──(Wi-Fi 代理 9000)──▶ Reqable ──(二级代理 7890)──▶ Clash ──▶ 互联网
+```
+
+---
+
+## 3. iOS 越狱设备配置
+
+### 3.1 安装必要插件
+
+在越狱设备的 **Sileo** 商店中安装以下两个插件：
+
+| 插件名 | 用途 |
+|--------|------|
+| **SSL Kill Switch 3** | 绕过 SSL Pinning，使 HTTPS 请求可被抓包 |
+
+### 3.2 配置 SSL Kill Switch 3
+
+1. 打开 SSL Kill Switch 3
+2. 确认开关已**开启**
+3. 默认全局生效即可
+
+
+---
+
+## 4. 订阅流程详解
+
+### 4.1 前提条件确认
+
+ChatGPT Pro 20x 订阅适用于以下**两种账号**：
+
+- **情况 A**：Apple 账号**之前有订阅过** ChatGPT 服务（包括 Go、Plus、Pro 5x 任意一种）
+- **情况 B**：**从未订阅过** ChatGPT 会员的全新账号
+
+> **📌 注意**：如果是情况 B（从未订阅过），需要先订阅一个 **Go 或 Plus** 会员，订阅后再继续后续步骤。如果之前有过订阅记录则可跳过此步。
+
+### 4.2 操作步骤
+
+#### Step 1：进入订阅页面
+
+```
+ChatGPT App → 设置 → 订阅 → 查看所有方案
+```
+
+#### Step 2：选择任意方案并点击订阅
+
+- 在方案列表中选择任意一个方案（如 Plus 年付等）
+- 点击**订阅**按钮
+- ⚠️ **不要立即确认付款！**
+
+#### Step 3：抓包并定位关键请求
+
+在电脑的 Reqable 中，找到以下请求：
+
+```
+POST https://p44-buy.itunes.apple.com/WebObjects/MZBuy.woa/wa/buyProduct
+```
+
+#### Step 4：重写请求体
+
+对上述请求的**请求体（Request Body）**进行拦截和重写，修改以下 3 个关键字段：
+
+| 字段 | 原值（示例：Plus 年付） | 替换为（Pro 20x 月付） |
+|------|------------------------|----------------------|
+| `offerName` | `oai_chatgpt_plus_20000_1y` | `oai_chatgpt_pro_20000_1m` |
+| `price` | `200000` | `200000`（保持不变） |
+| `salableAdamId` | `6745416289` | `6657954405` |
+
+> **📌 说明**：由于 ChatGPT Pro 20x 方案已在前端页面关闭，无法直接通过 App 选择。需要通过拦截 App Store 的购买请求，并替换请求体中的商品标识字段来实现订阅。
+
+#### Step 5：确认订阅
+
+完成请求体替换后，放行该请求。如果操作成功：
+
+```
+🎉 恭喜！手机上将弹出 ChatGPT Pro 20x 的订阅确认弹窗！
+```
+
+---
+
+## 5. 关键请求字段参考
+
+### 5.1 ChatGPT 各套餐方案对照表
+
+以下是所有 ChatGPT iOS 订阅方案的关键字段对照，可根据需要替换为对应套餐：
+
+| 套餐 | `offerName` | `salableAdamId` | `mtSubscriptionAdamId` | `price` |
+|------|-------------|-----------------|------------------------|---------|
+| **Go** 月付 $8 | `oai_chatgpt_go_1000_1m` | `6749460546` | ❌  | `8000` |
+| **Plus** 月付 $19.99 | `oai_chatgpt_plus_1999_1m` | `6448311597` | `6749460546` | `19990` |
+| **Plus** 年付 $200 | `oai_chatgpt_plus_20000_1y` | `6745416289` | `6749460546` | `200000` |
+| **Pro 5x** 月付 $100 | `oai_chatgpt_pro_10000_1m` | `6759817441` | `6749460546` | `100000` |
+| **Pro 20x** 月付 $200 | `oai_chatgpt_pro_20000_1m` | `6657954405` | `6749460546` | `200000` |
+
+> **💡 说明**：`price` 单位为**0.001美元**（如 `200000` = $200.00）。Go 套餐没有 `mtSubscriptionAdamId` 字段，其他套餐共用订阅组 ID `6749460546`。
+
+### 5.2 App Store 购买请求
+
+```
+POST https://p44-buy.itunes.apple.com/WebObjects/MZBuy.woa/wa/buyProduct
+```
+
+**请求体为 Apple Plist XML 格式，关键字段：**
+
+| 字段 | 说明 | 示例值（Pro 20x） |
+|------|------|------------------|
+| `appAdamId` | ChatGPT App ID | `6448311069` |
+| `bid` | Bundle ID | `com.openai.chat` |
+| `offerName` | 订阅方案名称 | `oai_chatgpt_pro_20000_1m` |
+| `price` | 价格（单位：美分） | `200000` |
+| `salableAdamId` | 可售商品 ID | `6657954405` |
+| `mtSubscriptionAdamId` | 订阅组 ID | `6749460546` |
+| `buySubscription` | 是否为订阅购买 | `true` |
+
+---
+
+## 流程总览
+
+```
+┌──────────────────────────────────────────────────────────┐
+│                      准备阶段                             │
+│  1. 越狱 iOS 设备                                        │
+│  2. 安装 SSL Kill Switch 3                       │
+│  3. 电脑安装 Clash + Reqable                              │
+│  4. 配置网络代理链路                                       │
+└──────────────────────┬───────────────────────────────────┘
+                       ▼
+┌──────────────────────────────────────────────────────────┐
+│                      配置阶段                             │
+│  1. Reqable 设置二级代理（→ Clash:7890）                   │
+│  2. 手机 Wi-Fi 代理指向 Reqable:9000                      │
+└──────────────────────┬───────────────────────────────────┘
+                       ▼
+┌──────────────────────────────────────────────────────────┐
+│                      执行阶段                             │
+│  1. ChatGPT App → 设置 → 订阅 → 查看所有方案              │
+│  2. 选择任意方案，点击订阅                                  │
+│  3. Reqable 拦截 buyProduct 请求                          │
+│  4. 替换 offerName / salableAdamId 字段                   │
+│  5. 放行请求 → 弹出 Pro 20x 订阅确认 🎉                   │
+└──────────────────────────────────────────────────────────┘
+```
+
+---
+
+> **最后更新**：2026-09-17
+
+---
+
+<div align="center">
+
+## 📬 联系方式
+
+<a href="https://t.me/lengmeng28">
+  <img src="https://img.shields.io/badge/Telegram-@lengmeng28-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white" alt="Telegram">
+</a>
+&nbsp;&nbsp;
+<a href="https://t.me/Geminivip1">
+  <img src="https://img.shields.io/badge/Telegram_群组-@Geminivip1-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white" alt="Telegram Group">
+</a>
+
+---
+
+## 🌟 推荐项目
+
+对此项目感兴趣的朋友，欢迎关注 UP 的 GitHub 开源项目：
+
+<a href="https://codex-x.site/">
+  <img src="https://img.shields.io/badge/🌐_官方网站-Codex--X-FF6B6B?style=for-the-badge" alt="Website">
+</a>
+&nbsp;&nbsp;
+<a href="https://github.com/yynxxxxx/Codex-X">
+  <img src="https://img.shields.io/badge/GitHub-Codex--X-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub">
+</a>
+
+⭐ **如果觉得有帮助，请给项目点个 Star！** ⭐
+
+</div>
