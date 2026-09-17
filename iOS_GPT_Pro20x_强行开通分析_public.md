@@ -1,5 +1,27 @@
 # iOS ChatGPT Pro 20x 开通教程
 
+<div align="center">
+
+### 📬 联系方式
+
+✈️ **Telegram**：<a href="https://t.me/lengmeng28" target="_blank">@lengmeng28</a> &nbsp;&nbsp;|&nbsp;&nbsp; 👥 **Telegram 群组**：<a href="https://t.me/Geminivip1" target="_blank">@Geminivip1</a>
+
+---
+
+### 🌟 推荐项目
+
+对此项目感兴趣的朋友，欢迎关注 UP 其他的 GitHub 开源项目：
+
+🌐 **官方网站**：<a href="https://codex-x.site/" target="_blank">https://codex-x.site/</a>
+
+💻 **GitHub 仓库**：<a href="https://github.com/yynxxxxx/Codex-X" target="_blank">https://github.com/yynxxxxx/Codex-X</a>
+
+⭐ **如果觉得有帮助，请给项目点个 Star！** ⭐
+
+</div>
+
+---
+
 > **⚠️ 免责声明**：本教程仅供学习研究用途，请遵守相关法律法规和服务条款。
 
 ---
@@ -209,34 +231,3 @@ POST https://p44-buy.itunes.apple.com/WebObjects/MZBuy.woa/wa/buyProduct
 
 > **最后更新**：2026-09-17
 
----
-
-<div align="center">
-
-## 📬 联系方式
-
-<a href="https://t.me/lengmeng28">
-  <img src="https://img.shields.io/badge/Telegram-@lengmeng28-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white" alt="Telegram">
-</a>
-&nbsp;&nbsp;
-<a href="https://t.me/Geminivip1">
-  <img src="https://img.shields.io/badge/Telegram_群组-@Geminivip1-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white" alt="Telegram Group">
-</a>
-
----
-
-## 🌟 推荐项目
-
-对此项目感兴趣的朋友，欢迎关注 UP 的 GitHub 开源项目：
-
-<a href="https://codex-x.site/">
-  <img src="https://img.shields.io/badge/🌐_官方网站-Codex--X-FF6B6B?style=for-the-badge" alt="Website">
-</a>
-&nbsp;&nbsp;
-<a href="https://github.com/yynxxxxx/Codex-X">
-  <img src="https://img.shields.io/badge/GitHub-Codex--X-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub">
-</a>
-
-⭐ **如果觉得有帮助，请给项目点个 Star！** ⭐
-
-</div>
