@@ -99,22 +99,27 @@ iPhone ──(Wi-Fi 代理 9000)──▶ Reqable ──(二级代理 7890)─�
 | 插件名 | 用途 |
 |--------|------|
 | **SSL Kill Switch 3** | 绕过 SSL Pinning，使 HTTPS 请求可被抓包 |
-| **Choicy** | 控制 tweak 注入，防止其他插件干扰 ChatGPT |
+| **Choicy** | 控制 Tweak 注入到指定进程 |
 
-### 3.2 配置 Choicy
-
-1. 打开 **设置 → Choicy**
-2. 找到 **ChatGPT** App
-3. 设置为 **自定义**
-4. 仅允许 **SSL Kill Switch 3** 注入，禁用其他所有插件
-
-> **💡 说明**：Choicy 确保只有 SSL Kill Switch 3 被注入到 ChatGPT 中，避免其他越狱插件导致 App 崩溃或行为异常。
-
-### 3.3 配置 SSL Kill Switch 3
+### 3.2 配置 SSL Kill Switch 3
 
 1. 打开 SSL Kill Switch 3
 2. 确认开关已**开启**
 3. 默认全局生效即可
+
+### 3.3 配置 Choicy
+
+打开 **Choicy → 守护进程（Daemons）**，对以下 5 个系统进程勾选启用 **SSL Kill Switch 3**：
+
+```
+✅ cloudd
+✅ accountsd
+✅ identityservicesd
+✅ akd
+✅ nsurlsessiond
+```
+
+> **⚠️ 重要**：这些进程负责 Apple ID 验证和网络通信，必须对它们注入 SSL Kill Switch 才能让 Reqable 正确抓取 App Store 的订阅请求。
 
 
 ---
